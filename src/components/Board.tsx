@@ -1,5 +1,4 @@
 import React from "react";
-
 import Square from "./Square";
 import { type BoardState } from "../types";
 
@@ -15,7 +14,11 @@ const Board: React.FC<BoardProps> = ({
   isMiniBoard = false,
 }) => {
   const renderSquare = (i: number) => (
-    <Square value={squares[i]} onClick={() => onClick(i)} />
+    <Square
+      value={squares[i]}
+      onClick={() => onClick(i)}
+      disabled={isMiniBoard}
+    />
   );
 
   return (
