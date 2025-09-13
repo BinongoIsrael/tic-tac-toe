@@ -201,6 +201,17 @@
   transform: scale(1.02);
 }
 
+.history button.active {
+  background: #bee3f8;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.history button.active:hover {
+  background: #90cdf4;
+  transform: scale(1.02);
+}
+
 .history button:active {
   transform: scale(0.98);
 }
