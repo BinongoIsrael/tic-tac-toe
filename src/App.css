@@ -110,6 +110,7 @@
 .game-buttons {
   display: flex;
   gap: 10px;
+  margin-bottom: 6px;
 }
 
 /* Board */
@@ -375,7 +376,7 @@
   .game-buttons {
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 1em;
   }
 
   .square {
