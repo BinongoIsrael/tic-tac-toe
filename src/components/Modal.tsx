@@ -14,7 +14,7 @@ const Modal: React.FC<ModalProps> = ({
   onSwitchMode,
 }) => {
   return (
-    <div className="modal">
+    <div className="modal show">
       <div className="modal-content">
         <button className="modal-close" onClick={onClose}>
           ×
