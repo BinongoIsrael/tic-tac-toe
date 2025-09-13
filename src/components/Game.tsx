@@ -1,61 +1,121 @@
 import React, { useState, useEffect } from "react";
 import Board from "./Board";
+import Modal from "./Modal";
 import { calculateWinner } from "../utils/calculateWinner";
 import { type BoardState, type SquareValue, type GameMode } from "../types";
 
 interface GameProps {
   mode: GameMode;
+  resetMode: () => void;
 }
-const Game: React.FC<GameProps> = ({ mode }) => {
-  const [squares, setSquares] = useState<BoardState>(Array(9).fill(null));
-  const [xIsNext, setXIsNext] = useState<boolean>(true);
-  const winner = calculateWinner(squares);
+
+const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
+  const [history, setHistory] = useState<BoardState[]>([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState<number>(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
+  const winner = calculateWinner(currentSquares);
   const isPvC = mode === "pvc";
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const isBoardFull = currentSquares.every((square) => square !== null);
+
+  const handlePlay = (nextSquares: BoardState) => {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  };
 
   const handleClick = (i: number) => {
-    if (winner || squares[i]) return;
-    const newSquares = [...squares];
-    newSquares[i] = xIsNext ? "X" : "O";
-    setSquares(newSquares);
-    setXIsNext(!xIsNext);
+    if (winner || currentSquares[i]) return;
+    const nextSquares = [...currentSquares];
+    nextSquares[i] = xIsNext ? "X" : "O";
+    handlePlay(nextSquares);
   };
 
   useEffect(() => {
     if (isPvC && !xIsNext && !winner) {
-      const emptyIndices = squares
+      const emptyIndices = currentSquares
         .map((val, idx) => (val === null ? idx : null))
         .filter((idx): idx is number => idx !== null);
       if (emptyIndices.length > 0) {
         const randomMove =
           emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-        const newSquares = [...squares];
-        newSquares[randomMove] = "O";
+        const nextSquares = [...currentSquares];
+        nextSquares[randomMove] = "O";
         setTimeout(() => {
-          setSquares(newSquares);
-          setXIsNext(true);
+          handlePlay(nextSquares);
         }, 500);
       }
     }
-  }, [squares, xIsNext, winner, isPvC]);
+  }, [currentSquares, xIsNext, winner, isPvC]);
 
-  const isBoardFull = squares.every((square) => square !== null);
+  useEffect(() => {
+    if (winner || isBoardFull) {
+      setShowModal(true);
+    }
+  }, [winner, isBoardFull]);
+
+  const jumpTo = (nextMove: number) => {
+    setCurrentMove(nextMove);
+    setShowModal(false);
+  };
+  const moves = history.map((squares, move) => {
+    let description;
+
+    if (move > 0) {
+      description = `Go to move #${move}`;
+    } else {
+      description = "Go to game start";
+    }
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
+
+  const resetGame = () => {
+    setHistory([Array(9).fill(null)]);
+    setCurrentMove(0);
+    setShowModal(false);
+  };
+
   const status = winner
     ? `Winner: ${winner}`
     : isBoardFull
     ? "Draw"
     : `Next player: ${xIsNext ? "X" : "O"}`;
 
-  const resetGame = () => {
-    setSquares(Array(9).fill(null));
-    setXIsNext(true);
-  };
-
   return (
     <div className="game">
-      <Board squares={squares} onClick={handleClick} status={status} />
-      <button className="reset-button" onClick={resetGame}>
-        Restart Game
-      </button>
+      <div className="game-board">
+        <div className="status">{status}</div>
+        <Board squares={currentSquares} onClick={handleClick} />
+      </div>
+      <div className="game-info">
+        <h3>Move History</h3>
+        <ol className="history">{moves}</ol>
+        <div className="game-buttons">
+          <button className="reset-button" onClick={resetGame}>
+            Restart Game
+          </button>
+          <button className="switch-mode" onClick={resetMode}>
+            Switch Mode
+          </button>
+        </div>
+      </div>
+      {showModal && (
+        <Modal
+          winner={winner}
+          isBoardFull={isBoardFull}
+          onClose={() => setShowModal(false)}
+          onReset={resetGame}
+          onSwitchMode={() => {
+            resetMode();
+            setShowModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };

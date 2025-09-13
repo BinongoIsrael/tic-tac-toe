@@ -13,12 +13,7 @@ const App: React.FC = () => {
     <div className="app">
       <h1>Tic-Tac-Toe</h1>
       {mode ? (
-        <>
-          <Game mode={mode} />
-          <button className="switch-mode" onClick={resetMode}>
-            Switch Mode
-          </button>
-        </>
+        <Game mode={mode} resetMode={resetMode} />
       ) : (
         <ModeSelector onSelectMode={setMode} />
       )}
