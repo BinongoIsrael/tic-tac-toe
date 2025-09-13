@@ -3,11 +3,7 @@ import Board from "./Board";
 import Modal from "./Modal";
 import { calculateWinner } from "../utils/calculateWinner";
 import { findBestMove } from "../utils/minimax";
-<<<<<<< HEAD
-import { type BoardState, type SquareValue, type GameMode } from "../types";
-=======
 import { type BoardState, type GameMode } from "../types";
->>>>>>> hotfix/fix-error
 
 interface GameProps {
   mode: GameMode;
@@ -61,11 +57,7 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     setShowModal(false);
   };
 
-<<<<<<< HEAD
-  const moves = history.map((squares, move) => {
-=======
   const moves = history.map((_, move) => {
->>>>>>> hotfix/fix-error
     let description;
     if (move > 0) {
       description = `Go to move #${move}`;
