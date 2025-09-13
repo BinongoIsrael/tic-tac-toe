@@ -1,6 +1,21 @@
 .app{
+  text-align: center;
+  font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
+}
+.mode-selector button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.mode-selector button:hover {
+  background-color: #e0e0e0;
 }
 .square {
   width: 60px;
@@ -21,4 +36,32 @@
 }
 .square-container{
   display: flex;
+}
+
+.board {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.board-row {
+  display: flex;
+}
+.status {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.reset-button,
+.switch-mode {
+  margin: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.reset-button:hover,
+.switch-mode:hover {
+  background-color: #e0e0e0;
 }
