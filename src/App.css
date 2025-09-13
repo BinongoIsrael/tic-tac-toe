@@ -1,67 +1,181 @@
-.app{
+/* src/App.css */
+
+/* App container */
+.app {
   text-align: center;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
+  max-width: 450px; /* Slightly smaller for focus */
+  width: 100%;
+  padding: 20px;
+  background: #ffffff; /* Clean white card */
+  border-radius: 16px; /* Softer corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Minimal shadow */
+  transition: transform 0.2s ease;
 }
+
+.app:hover {
+  transform: translateY(-2px); /* Subtle lift */
+}
+
+.app h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 20px;
+}
+
+/* Mode selector */
+.mode-selector {
+  margin-bottom: 20px;
+}
+
+.mode-selector h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 15px;
+}
+
 .mode-selector button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
+  margin: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  border: 1px solid #000;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa); /* Blue gradient */
+  color: #ffffff;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .mode-selector button:hover {
-  background-color: #e0e0e0;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transform: scale(1.05);
 }
+
+.mode-selector button:active {
+  transform: scale(0.95);
+}
+
+/* Board */
+.board {
+  display: inline-block;
+  margin: 20px auto;
+  background: #ffffff; /* Pure white for clean look */
+  border-radius: 10px; /* Sleek rounded edges */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Ultra-minimal shadow */
+}
+
+/* Board row */
+.board-row {
+  display: flex;
+}
+
+/* Square */
+.square-container {
+  display: flex;
+}
+
 .square {
-  width: 60px;
-  height: 60px;
-  font-size: 24px;
-  font-weight: bold;
-  border: 1px solid #000;
-  background: #fff;
+  width: 90px; /* Larger for prominence */
+  height: 90px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  border: 1px solid #e5e7eb; /* Thin, light gray border */
+  background: #ffffff; /* Clean white */
+  color: #2d3748;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.square:hover:not(:disabled) {
+  background: #f7fafc; /* Subtle hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow on hover */
+  transform: scale(1.03);
 }
 
 .square:disabled {
   cursor: not-allowed;
-  background-color: #f0f0f0;
-}
-.square-container{
-  display: flex;
+  background: #f7fafc; /* Slightly off-white for disabled */
+  color: #a0aec0; /* Muted text */
 }
 
-.board {
-  display: inline-block;
-  margin-top: 20px;
-}
-
-.board-row {
-  display: flex;
-}
+/* Status */
 .status {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2d3748;
+  margin-bottom: 15px;
+  background: #f7fafc;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb; /* Matches square borders */
 }
+
+/* Buttons (reset and switch mode) */
 .reset-button,
 .switch-mode {
-  margin: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
+  margin: 15px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  border: 1px solid #000;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  color: #ffffff;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .reset-button:hover,
 .switch-mode:hover {
-  background-color: #e0e0e0;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transform: scale(1.05);
+}
+
+.reset-button:active,
+.switch-mode:active {
+  transform: scale(0.95);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .app {
+    padding: 15px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  .app h1 {
+    font-size: 1.4rem;
+  }
+
+  .mode-selector h2 {
+    font-size: 1.2rem;
+  }
+
+  .mode-selector button {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .square {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+    border-width: 1px;
+  }
+
+  .status {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .reset-button,
+  .switch-mode {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
 }
