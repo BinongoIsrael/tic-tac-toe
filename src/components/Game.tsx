@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Board from "./Board";
 import Modal from "./Modal";
 import { calculateWinner } from "../utils/calculateWinner";
+import { findBestMove } from "../utils/minimax";
 import { type BoardState, type SquareValue, type GameMode } from "../types";
 
 interface GameProps {
@@ -34,14 +35,10 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
 
   useEffect(() => {
     if (isPvC && !xIsNext && !winner) {
-      const emptyIndices = currentSquares
-        .map((val, idx) => (val === null ? idx : null))
-        .filter((idx): idx is number => idx !== null);
-      if (emptyIndices.length > 0) {
-        const randomMove =
-          emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+      const bestMove = findBestMove(currentSquares);
+      if (bestMove !== -1) {
         const nextSquares = [...currentSquares];
-        nextSquares[randomMove] = "O";
+        nextSquares[bestMove] = "O";
         setTimeout(() => {
           handlePlay(nextSquares);
         }, 500);
@@ -59,9 +56,9 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     setCurrentMove(nextMove);
     setShowModal(false);
   };
+
   const moves = history.map((squares, move) => {
     let description;
-
     if (move > 0) {
       description = `Go to move #${move}`;
     } else {
