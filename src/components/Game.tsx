@@ -13,6 +13,7 @@ interface GameProps {
 const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
   const [history, setHistory] = useState<BoardState[]>([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState<number>(0);
+  const [minimaxProbability, setMinimaxProbability] = useState<number>(50);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
   const winner = calculateWinner(currentSquares);
@@ -40,7 +41,7 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
         .filter((idx): idx is number => idx !== null);
       if (emptyIndices.length > 0) {
         let move: number;
-        if (Math.random() < 0.5) {
+        if (Math.random() * 100 < minimaxProbability) {
           // Minimax move
           move = findBestMove(currentSquares);
         } else {
@@ -54,7 +55,7 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
         }, 500);
       }
     }
-  }, [currentSquares, xIsNext, winner, isPvC]);
+  }, [currentSquares, xIsNext, winner, isPvC, minimaxProbability]);
 
   useEffect(() => {
     if (winner || isBoardFull) {
@@ -67,16 +68,27 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     setShowModal(false);
   };
 
-  const moves = history.map((_, move) => {
+  const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
-      description = `Go to move #${move}`;
+      const prevSquares = history[move - 1];
+      const changedIndex = squares.findIndex(
+        (val, i) => val !== prevSquares[i]
+      );
+      const row = Math.floor(changedIndex / 3) + 1;
+      const col = (changedIndex % 3) + 1;
+      description = `Move #${move}: ${squares[changedIndex]} at (${row},${col})`;
     } else {
       description = "Go to game start";
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button
+          className={move === currentMove ? "active" : ""}
+          onClick={() => jumpTo(move)}
+        >
+          {description}
+        </button>
       </li>
     );
   });
@@ -97,6 +109,21 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     <div className="game">
       <div className="game-board">
         <div className="status">{status}</div>
+        {isPvC && (
+          <div className="difficulty">
+            <label htmlFor="difficulty-slider">
+              AI Difficulty (Minimax %): {minimaxProbability}
+            </label>
+            <input
+              id="difficulty-slider"
+              type="range"
+              min="0"
+              max="100"
+              value={minimaxProbability}
+              onChange={(e) => setMinimaxProbability(Number(e.target.value))}
+            />
+          </div>
+        )}
         <Board squares={currentSquares} onClick={handleClick} />
       </div>
       <div className="game-info">
@@ -114,6 +141,7 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
       {showModal && (
         <Modal
           winner={winner}
+          board={currentSquares}
           onClose={() => setShowModal(false)}
           onReset={resetGame}
           onSwitchMode={() => {
