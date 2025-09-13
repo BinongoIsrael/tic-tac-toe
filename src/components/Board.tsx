@@ -1,6 +1,10 @@
 import React from "react";
 import Square from "./Square";
+<<<<<<< HEAD
 import { type BoardState, type SquareValue } from "../types";
+=======
+import { type BoardState } from "../types";
+>>>>>>> hotfix/fix-error
 
 interface BoardProps {
   squares: BoardState;
