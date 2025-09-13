@@ -35,10 +35,20 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
 
   useEffect(() => {
     if (isPvC && !xIsNext && !winner) {
-      const bestMove = findBestMove(currentSquares);
-      if (bestMove !== -1) {
+      const emptyIndices = currentSquares
+        .map((val, idx) => (val === null ? idx : null))
+        .filter((idx): idx is number => idx !== null);
+      if (emptyIndices.length > 0) {
+        let move: number;
+        if (Math.random() < 0.5) {
+          // Minimax move
+          move = findBestMove(currentSquares);
+        } else {
+          // Random move
+          move = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        }
         const nextSquares = [...currentSquares];
-        nextSquares[bestMove] = "O";
+        nextSquares[move] = "O";
         setTimeout(() => {
           handlePlay(nextSquares);
         }, 500);
