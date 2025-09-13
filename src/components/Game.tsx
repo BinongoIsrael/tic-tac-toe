@@ -104,7 +104,6 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
       {showModal && (
         <Modal
           winner={winner}
-          isBoardFull={isBoardFull}
           onClose={() => setShowModal(false)}
           onReset={resetGame}
           onSwitchMode={() => {
