@@ -1,4 +1,3 @@
-// src/components/Square.tsx
 import React from "react";
 import { type SquareValue } from "../types";
 
@@ -9,7 +8,11 @@ interface SquareProps {
 
 const Square: React.FC<SquareProps> = ({ value, onClick }) => {
   return (
-    <button className="square" onClick={onClick} disabled={!!value}>
+    <button
+      className={`square ${value ? value.toLowerCase() : ""}`}
+      onClick={onClick}
+      disabled={!!value}
+    >
       {value}
     </button>
   );
