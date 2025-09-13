@@ -1,6 +1,7 @@
 import React from "react";
+
 import Square from "./Square";
-import { type BoardState, type SquareValue } from "../types";
+import { type BoardState } from "../types";
 
 interface BoardProps {
   squares: BoardState;

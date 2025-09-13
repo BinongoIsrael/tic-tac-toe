@@ -3,7 +3,7 @@ import Board from "./Board";
 import Modal from "./Modal";
 import { calculateWinner } from "../utils/calculateWinner";
 import { findBestMove } from "../utils/minimax";
-import { type BoardState, type SquareValue, type GameMode } from "../types";
+import { type BoardState, type GameMode } from "../types";
 
 interface GameProps {
   mode: GameMode;
@@ -57,7 +57,7 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     setShowModal(false);
   };
 
-  const moves = history.map((squares, move) => {
+  const moves = history.map((_, move) => {
     let description;
     if (move > 0) {
       description = `Go to move #${move}`;
@@ -104,7 +104,6 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
       {showModal && (
         <Modal
           winner={winner}
-          isBoardFull={isBoardFull}
           onClose={() => setShowModal(false)}
           onReset={resetGame}
           onSwitchMode={() => {
