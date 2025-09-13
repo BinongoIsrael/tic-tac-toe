@@ -309,6 +309,10 @@
   margin-bottom: 20px;
 }
 
+.modal-board {
+  margin-bottom: 20px;
+}
+
 .modal-close {
   position: absolute;
   top: 10px;
@@ -325,7 +329,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .modal-close:hover {
@@ -355,7 +359,7 @@
   border-radius: 8px;
   background: linear-gradient(90deg, #3b82f6, #60a5fa);
   color: #ffffff;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .modal-buttons button:hover {
@@ -394,7 +398,7 @@
   .game-buttons {
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 1em;
+    margin-top: 8px;
   }
 
   .square {
@@ -404,9 +408,23 @@
     border-width: 1px;
   }
 
+  .board.mini .square {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+
   .status {
     font-size: 1rem;
     padding: 6px 12px;
+  }
+
+  .difficulty {
+    margin-bottom: 10px;
+  }
+
+  .difficulty label {
+    font-size: 0.9rem;
   }
 
   .history {
@@ -431,6 +449,10 @@
 
   .modal-content h2 {
     font-size: 1.2rem;
+  }
+
+  .modal-board {
+    margin-bottom: 10px;
   }
 
   .modal-buttons button {

@@ -141,6 +141,7 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
       {showModal && (
         <Modal
           winner={winner}
+          board={currentSquares}
           onClose={() => setShowModal(false)}
           onReset={resetGame}
           onSwitchMode={() => {

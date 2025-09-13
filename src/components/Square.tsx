@@ -4,17 +4,24 @@ import { type SquareValue } from "../types";
 interface SquareProps {
   value: SquareValue;
   onClick: () => void;
+  disabled?: boolean;
 }
 
-const Square: React.FC<SquareProps> = ({ value, onClick }) => {
+const Square: React.FC<SquareProps> = ({
+  value,
+  onClick,
+  disabled = false,
+}) => {
   return (
-    <button
-      className={`square ${value ? value.toLowerCase() : ""}`}
-      onClick={onClick}
-      disabled={!!value}
-    >
-      {value}
-    </button>
+    <div className="square-container">
+      <button
+        className={`square ${value ? value.toLowerCase() : ""}`}
+        onClick={onClick}
+        disabled={disabled || !!value}
+      >
+        {value}
+      </button>
+    </div>
   );
 };
 
