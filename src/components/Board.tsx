@@ -6,15 +6,20 @@ import { type BoardState } from "../types";
 interface BoardProps {
   squares: BoardState;
   onClick: (i: number) => void;
+  isMiniBoard?: boolean;
 }
 
-const Board: React.FC<BoardProps> = ({ squares, onClick }) => {
+const Board: React.FC<BoardProps> = ({
+  squares,
+  onClick,
+  isMiniBoard = false,
+}) => {
   const renderSquare = (i: number) => (
     <Square value={squares[i]} onClick={() => onClick(i)} />
   );
 
   return (
-    <div className="board">
+    <div className={`board ${isMiniBoard ? "mini" : ""}`}>
       <div className="board-row">
         {renderSquare(0)}
         {renderSquare(1)}
