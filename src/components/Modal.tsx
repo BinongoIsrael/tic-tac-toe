@@ -2,7 +2,6 @@ import React from "react";
 
 interface ModalProps {
   winner: string | null;
-  isBoardFull: boolean;
   onClose: () => void;
   onReset: () => void;
   onSwitchMode: () => void;
@@ -10,7 +9,6 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({
   winner,
-  isBoardFull,
   onClose,
   onReset,
   onSwitchMode,
