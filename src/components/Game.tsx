@@ -3,7 +3,7 @@ import Board from "./Board";
 import Modal from "./Modal";
 import { calculateWinner } from "../utils/calculateWinner";
 import { findBestMove } from "../utils/minimax";
-import { type BoardState, type GameMode } from "../types";
+import { type BoardState, type SquareValue, type GameMode } from "../types";
 
 interface GameProps {
   mode: GameMode;
@@ -20,12 +20,14 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const isBoardFull = currentSquares.every((square) => square !== null);
 
+  // Handle player move
   const handlePlay = (nextSquares: BoardState) => {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   };
 
+  // Handle square click
   const handleClick = (i: number) => {
     if (winner || currentSquares[i]) return;
     const nextSquares = [...currentSquares];
@@ -33,6 +35,7 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     handlePlay(nextSquares);
   };
 
+  // Computer move (50% minimax, 50% random)
   useEffect(() => {
     if (isPvC && !xIsNext && !winner) {
       const emptyIndices = currentSquares
@@ -56,21 +59,30 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     }
   }, [currentSquares, xIsNext, winner, isPvC]);
 
+  // Show modal on win or draw
   useEffect(() => {
     if (winner || isBoardFull) {
       setShowModal(true);
     }
   }, [winner, isBoardFull]);
 
+  // Jump to a specific move
   const jumpTo = (nextMove: number) => {
     setCurrentMove(nextMove);
     setShowModal(false);
   };
 
-  const moves = history.map((_, move) => {
+  // Generate move history list with coordinates
+  const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
-      description = `Go to move #${move}`;
+      const prevSquares = history[move - 1];
+      const changedIndex = squares.findIndex(
+        (val, i) => val !== prevSquares[i]
+      );
+      const row = Math.floor(changedIndex / 3) + 1;
+      const col = (changedIndex % 3) + 1;
+      description = `Move #${move}: ${squares[changedIndex]} at (${row},${col})`;
     } else {
       description = "Go to game start";
     }
@@ -81,12 +93,14 @@ const Game: React.FC<GameProps> = ({ mode, resetMode }) => {
     );
   });
 
+  // Reset game
   const resetGame = () => {
     setHistory([Array(9).fill(null)]);
     setCurrentMove(0);
     setShowModal(false);
   };
 
+  // Status
   const status = winner
     ? `Winner: ${winner}`
     : isBoardFull
