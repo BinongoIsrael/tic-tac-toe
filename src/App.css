@@ -1,42 +1,399 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* src/App.css */
+
+/* App container */
+.app {
   text-align: center;
+  max-width: 700px;
+  width: 100%;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app:hover {
+  transform: translateY(-2px);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.app h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 20px;
+}
+
+/* Mode selector */
+.mode-selector {
+  margin-bottom: 20px;
+}
+
+.mode-selector h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 15px;
+}
+
+.mode-selector button {
+  margin: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  color: #ffffff;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.mode-selector button:hover {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transform: scale(1.05);
+}
+
+.mode-selector button:active {
+  transform: scale(0.95);
+}
+
+/* Game layout */
+.game {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+}
+
+.game-board {
+  flex: 1;
+}
+
+.game-info {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+/* Status */
+.status {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2d3748;
+  margin-bottom: 15px;
+  background: #f7fafc;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Game buttons */
+.game-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 3em;
+}
+
+/* Board */
+.board {
+  display: inline-block;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Board row */
+.board-row {
+  display: flex;
+}
+
+/* Square */
+.square-container {
+  display: flex;
+}
+
+.square {
+  width: 90px;
+  height: 90px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.square.x {
+  color: #10b981; /* Green for X */
+}
+
+.square.o {
+  color: #ef4444; /* Red for O */
+}
+
+.square:hover:not(:disabled) {
+  background: #f7fafc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: scale(1.03);
+}
+
+.square:disabled {
+  cursor: not-allowed;
+  background: #f7fafc;
+}
+
+/* History list */
+.game-info h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 10px;
+}
+
+.history {
+  list-style: none;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #a0aec0 #edf2f7;
+  flex-grow: 1;
+}
+
+.history::-webkit-scrollbar {
+  width: 8px;
+}
+
+.history::-webkit-scrollbar-track {
+  background: #edf2f7;
+  border-radius: 4px;
+}
+
+.history::-webkit-scrollbar-thumb {
+  background: #a0aec0;
+  border-radius: 4px;
+}
+
+.history li {
+  margin-bottom: 8px;
+}
+
+.history button {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background: #edf2f7;
+  color: #2d3748;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.history button:hover {
+  background: #e2e8f0;
+  transform: scale(1.02);
+}
+
+.history button:active {
+  transform: scale(0.98);
+}
+
+/* Reset and switch buttons */
+.reset-button,
+.switch-mode {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  color: #ffffff;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.reset-button:hover,
+.switch-mode:hover {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transform: scale(1.05);
+}
+
+.reset-button:active,
+.switch-mode:active {
+  transform: scale(0.95);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  position: relative; /* For close button positioning */
+}
+
+.modal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 20px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #edf2f7;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #e2e8f0;
+  transform: scale(1.1);
+}
+
+.modal-close:active {
+  transform: scale(0.9);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  color: #ffffff;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.modal-buttons button:hover {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transform: scale(1.05);
+}
+
+.modal-buttons button:active {
+  transform: scale(0.95);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .app {
+    padding: 15px;
+    max-width: 100%;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
   }
-  to {
-    transform: rotate(360deg);
+
+  .app h1 {
+    font-size: 1.4rem;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .game {
+    flex-direction: column;
+    gap: 10px;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .game-info {
+    min-height: 250px;
+    gap: 8px;
+  }
 
-.read-the-docs {
-  color: #888;
+  .game-buttons {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .square {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+    border-width: 1px;
+  }
+
+  .status {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .history {
+    max-height: 150px;
+  }
+
+  .history button {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .reset-button,
+  .switch-mode {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    padding: 15px;
+    max-width: 300px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-buttons button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .modal-close {
+    width: 24px;
+    height: 24px;
+    font-size: 0.9rem;
+  }
 }
